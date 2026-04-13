@@ -1,0 +1,70 @@
+name: notas-fiscais-erik
+
+services:
+  estoque:
+    build:
+      context: ./backend/estoque
+      dockerfile: estoque.Dockerfile
+    env_file:
+      - ./backend/db.env
+    volumes:
+      - ./backend/estoque:/app
+    ports:
+      - 5000:5000
+    networks:
+      - backend-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  faturamento:
+    build:
+      context: ./backend/faturamento
+      dockerfile: faturamento.Dockerfile
+    env_file:
+      - ./backend/db.env
+    ports:
+      - 5001:5001
+    networks:
+        - backend-network
+    depends_on:
+        db:
+          condition: service_healthy
+  db:
+    build:
+      context: ./backend/db
+      dockerfile: db.Dockerfile
+    restart: unless-stopped
+    shm_size: 128mb
+    env_file: ./backend/db.env
+    volumes:
+      - ./backend/db/postgres:/var/lib/postgresql
+      - ./backend/db/db.sql:/docker-entrypoint-initdb.d/db.sql
+    ports:
+      - 5432:5432
+    networks:
+        - backend-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+  
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: frontend.Dockerfile
+    volumes:
+      - ./frontend/src:/app/src  
+    ports:
+      - 4200:4200
+    depends_on:
+      estoque:
+        condition: service_started
+    networks:
+      - frontend-network
+
+networks:
+  backend-network:
+  frontend-network:
