@@ -1,0 +1,623 @@
+{
+  "info": {
+    "_postman_id": "0e3b2aab-4d5c-4aff-8c5b-486a20481bce",
+    "name": "Testes Notas Fiscais KORP",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45855558"
+  },
+  "item": [
+    {
+      "name": "Estoque",
+      "item": [
+        {
+          "name": "Todos Produtos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{estoque_url}}/products",
+              "host": [
+                "{{estoque_url}}"
+              ],
+              "path": [
+                "products"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Todos Produtos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{estoque_url}}/products",
+                  "host": [
+                    "{{estoque_url}}"
+                  ],
+                  "path": [
+                    "products"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 14 Apr 2026 13:38:08 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "165"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"product_id\": \"001\",\n        \"description\": \"Banana\",\n        \"amount\": 4\n    },\n    {\n        \"product_id\": \"002\",\n        \"description\": \"Pera\",\n        \"amount\": 5\n    },\n    {\n        \"product_id\": \"007\",\n        \"description\": \"Tênis\",\n        \"amount\": 13\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Criar Produto",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"product_id\": \"012\",\n    \"description\": \"Abacate\",\n    \"amount\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{estoque_url}}/product",
+              "host": [
+                "{{estoque_url}}"
+              ],
+              "path": [
+                "product"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Sucesso",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"product_id\": \"007\",\n    \"description\": \"Tênis\",\n    \"amount\": 13\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{estoque_url}}/product",
+                  "host": [
+                    "{{estoque_url}}"
+                  ],
+                  "path": [
+                    "product"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 14 Apr 2026 01:27:44 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "55"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"product_id\": \"007\",\n    \"description\": \"Tênis\",\n    \"amount\": 13\n}"
+            },
+            {
+              "name": "Falha (ID Duplicado)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"product_id\": \"007\",\n    \"description\": \"Abacate\",\n    \"amount\": 13\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{estoque_url}}/product",
+                  "host": [
+                    "{{estoque_url}}"
+                  ],
+                  "path": [
+                    "product"
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 14 Apr 2026 01:45:45 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "59"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"This product already exists! (duplicated code).\"\n}"
+            },
+            {
+              "name": "Falha (Excesso Caracteres)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"product_id\": \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\n    \"description\": \"Abacate\",\n    \"amount\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{estoque_url}}/product",
+                  "host": [
+                    "{{estoque_url}}"
+                  ],
+                  "path": [
+                    "product"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 14 Apr 2026 01:49:37 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "49"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"A field character limit was exceeded.\"\n}"
+            },
+            {
+              "name": "Falha (Payload Incorreto)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"description\": \"Abacate\",\n    \"amount\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{estoque_url}}/product",
+                  "host": [
+                    "{{estoque_url}}"
+                  ],
+                  "path": [
+                    "product"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Tue, 14 Apr 2026 01:53:27 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "37"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Payload format incorrect!\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Corrigir Quantidade",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"amount\": -7\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{estoque_url}}/product/amount/1",
+              "host": [
+                "{{estoque_url}}"
+              ],
+              "path": [
+                "product",
+                "amount",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Corrigir Quantidade",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"amount\": -7\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{estoque_url}}/product/amount/007",
+                  "host": [
+                    "{{estoque_url}}"
+                  ],
+                  "path": [
+                    "product",
+                    "amount",
+                    "007"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 14 Apr 2026 13:40:16 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "83"
+                }
+              ],
+              "cookie": [
+                {
+                  "expires": "Invalid Date",
+                  "domain": "",
+                  "path": ""
+                }
+              ],
+              "body": "{\n    \"message\": \"Updated the inventory with success!\",\n    \"new_amount\": 6,\n    \"product_id\": \"007\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Corrigir Nome",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"newName\": \"Melão\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{estoque_url}}/product/rename/007",
+              "host": [
+                "{{estoque_url}}"
+              ],
+              "path": [
+                "product",
+                "rename",
+                "007"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Corrigir Nome",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"newName\": \"Melão\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{estoque_url}}/product/rename/007",
+                  "host": [
+                    "{{estoque_url}}"
+                  ],
+                  "path": [
+                    "product",
+                    "rename",
+                    "007"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 14 Apr 2026 13:44:32 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "88"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Updated the inventory with success!\",\n    \"new_name\": \"Melão\",\n    \"product_id\": \"007\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Notas",
+      "item": [
+        {
+          "name": "Criar Nota",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{faturamento_url}}/invoice",
+              "host": [
+                "{{faturamento_url}}"
+              ],
+              "path": [
+                "invoice"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Todas as Notas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{faturamento_url}}/invoices",
+              "host": [
+                "{{faturamento_url}}"
+              ],
+              "path": [
+                "invoices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Status de Nota",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"newStatus\":\"closed\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{faturamento_url}}/invoice/status/1",
+              "host": [
+                "{{faturamento_url}}"
+              ],
+              "path": [
+                "invoice",
+                "status",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Nota",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{faturamento_url}}/invoice/1",
+              "host": [
+                "{{faturamento_url}}"
+              ],
+              "path": [
+                "invoice",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Produtos para Notas",
+      "item": [
+        {
+          "name": "Listar todos as Notas para Produtos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{faturamento_url}}/products-to-invoice",
+              "host": [
+                "{{faturamento_url}}"
+              ],
+              "path": [
+                "products-to-invoice"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Adicionar Nota para Produto",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"invoice_id\": 1,\n    \"product_id\": \"002\",\n    \"amount\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{faturamento_url}}/products-to-invoice",
+              "host": [
+                "{{faturamento_url}}"
+              ],
+              "path": [
+                "products-to-invoice"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Junção de Produtos em Nota",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{faturamento_url}}/products-to-invoice/5",
+              "host": [
+                "{{faturamento_url}}"
+              ],
+              "path": [
+                "products-to-invoice",
+                "5"
+              ]
+            },
+            "description": "Esta requisoção deleta um item da tabela products_to_invoices pelo id SERIAL da transação, não por ID da nota."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "estoque_url",
+      "value": ""
+    },
+    {
+      "key": "faturamento_url",
+      "value": ""
+    }
+  ]
+}
