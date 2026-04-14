@@ -23,6 +23,8 @@ services:
       dockerfile: faturamento.Dockerfile
     env_file:
       - ./backend/db.env
+    volumes:
+      - ./backend/faturamento:/app
     ports:
       - 5001:5001
     networks:
