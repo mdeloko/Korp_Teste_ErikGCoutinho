@@ -28,6 +28,9 @@ func main(){
 		})
 	})
 	server.GET("/products",ProductController.GetProducts)
+	server.POST("/product", ProductController.CreateProduct)
+	server.PATCH("/product/amount/:id", ProductController.DecrementOrIncrementProduct)
+	server.PATCH("/product/rename/:id", ProductController.RenameProduct)
 
 	server.Run(":5000")
 	
