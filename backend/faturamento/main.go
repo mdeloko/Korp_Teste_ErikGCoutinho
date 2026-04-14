@@ -34,7 +34,14 @@ func main(){
 	})
 	
 	server.GET("/invoices",InvoiceController.GetInvoices)
+	server.GET("/invoice/:id",InvoiceController.GetInvoice)
+	server.POST("/invoice",InvoiceController.CreateInvoice)
+	server.PATCH("/invoice/status/:id",InvoiceController.UpdateInvoiceStatus)
+	server.DELETE("/invoice/:id",InvoiceController.DeleteInvoice)
+
 	server.GET("/products-to-invoice",ProductsToInvoiceController.GetProductsToInvoice)
+	server.POST("/products-to-invoice",ProductsToInvoiceController.AddProductToInvoice)
+	server.DELETE("/products-to-invoice/:id",ProductsToInvoiceController.RemoveProductFromInvoice)
 
 	server.Run(":5001")
 	
