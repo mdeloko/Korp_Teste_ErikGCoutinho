@@ -90,7 +90,7 @@ export class Invoices {
   removeProductOfInvoice(){
     //@ts-ignore
     this.ProductToInvoiceService.deleteProductFromInvoice(this.selectedInvoice?.invoice_id,this.selectedProduct?.product_id).subscribe()
-
+    //@ts-ignore
     this.ProductToInvoiceService.getProductsFromInvoiceByInvoiceId(this.selectedInvoice.invoice_id).subscribe({
       next: (products)=>{
         this.selectedInvoiceProducts = products
