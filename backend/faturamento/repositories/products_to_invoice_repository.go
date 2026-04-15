@@ -7,7 +7,7 @@ import (
 	"github.com/mdeloko/Korp_Teste_ErikGCoutinho/models"
 )
 
-type ProductsToInvoicesRepository struct{
+type ProductsToInvoicesRepository struct {
 	connection *sql.DB
 }
 
@@ -17,11 +17,11 @@ func NewProductsToInvoicesRepository(conn *sql.DB) ProductsToInvoicesRepository 
 	}
 }
 
-func (ptir *ProductsToInvoicesRepository) GetProductsToInvoices() ([]models.ProductToInvoice, error){
+func (ptir *ProductsToInvoicesRepository) GetProductsToInvoices() ([]models.ProductToInvoice, error) {
 	query := "SELECT * FROM products_to_invoices;"
-	rows,err := ptir.connection.Query(query)
+	rows, err := ptir.connection.Query(query)
 
-	if err!=nil {
+	if err != nil {
 		fmt.Println(err)
 		return []models.ProductToInvoice{}, err
 	}
@@ -35,7 +35,7 @@ func (ptir *ProductsToInvoicesRepository) GetProductsToInvoices() ([]models.Prod
 			&ptirObj.Invoice_id,
 			&ptirObj.Product_id,
 			&ptirObj.Amount)
-		if err != nil{
+		if err != nil {
 			fmt.Println(err)
 			return []models.ProductToInvoice{}, err
 		}
@@ -43,6 +43,38 @@ func (ptir *ProductsToInvoicesRepository) GetProductsToInvoices() ([]models.Prod
 	}
 	rows.Close()
 	return ptirList, nil
+}
+
+func (ptir *ProductsToInvoicesRepository) GetProductsToInvoiceByInvoiceId(id int) ([]models.Product, error) {
+	query := `
+	SELECT p.code, p.description, SUM(pti.amount)
+	FROM products_to_invoices pti
+	INNER JOIN products p ON pti.product_id = p.code
+	WHERE pti.invoice_id = $1
+	GROUP BY p.code, p.description`
+	rows, err := ptir.connection.Query(query, id)
+
+	if err != nil {
+		fmt.Println(err)
+		return []models.Product{}, err
+	}
+
+	var productList []models.Product
+	var productObj models.Product
+
+	for rows.Next() {
+		err = rows.Scan(
+			&productObj.Code,
+			&productObj.Description,
+			&productObj.Amount)
+		if err != nil {
+			fmt.Println(err)
+			return []models.Product{}, err
+		}
+		productList = append(productList, productObj)
+	}
+	rows.Close()
+	return productList, nil
 }
 
 func (ptir *ProductsToInvoicesRepository) AddProductToInvoice(invoice_id int, product_id string, amount int) error {
@@ -60,10 +92,10 @@ func (ptir *ProductsToInvoicesRepository) AddProductToInvoice(invoice_id int, pr
 	return err
 }
 
-func (ptir *ProductsToInvoicesRepository) RemoveProductFromInvoice(id int) error {
+func (ptir *ProductsToInvoicesRepository) RemoveProductFromInvoice(invoice_id int, product_id string) error {
 	query, err := ptir.connection.Prepare(`
 		DELETE FROM products_to_invoices 
-		WHERE id = $1
+		WHERE invoice_id = $1 AND product_id = $2
 	`)
 	if err != nil {
 		fmt.Println(err)
@@ -71,6 +103,6 @@ func (ptir *ProductsToInvoicesRepository) RemoveProductFromInvoice(id int) error
 	}
 	defer query.Close()
 
-	_, err = query.Exec(id)
+	_, err = query.Exec(invoice_id, product_id)
 	return err
 }
