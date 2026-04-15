@@ -4,13 +4,20 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 	"github.com/mdeloko/Korp_Teste_ErikGCoutinho/controllers"
 	"github.com/mdeloko/Korp_Teste_ErikGCoutinho/repositories"
 	usecases "github.com/mdeloko/Korp_Teste_ErikGCoutinho/useCases"
 )
 
 func main(){
+	corsConfig := cors.Config{
+		AllowOrigins: []string{"http://localhost:4200"},
+		AllowMethods: []string{"GET","POST","PATCH","DELETE"},
+		AllowHeaders: []string{"Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"},
+	}
 	server := gin.Default()
+	server.Use(cors.New(corsConfig))
 
 	dbConn, err := repositories.ConnectDB()
 	if err != nil {
