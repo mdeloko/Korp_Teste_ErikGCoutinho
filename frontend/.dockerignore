@@ -1,0 +1,21 @@
+# Docs
+README.md
+
+#IDE e Ferramentas
+.vscode
+.prettierrc
+.editorconfig
+
+#Git
+.git
+.gitignore
+
+# Cache e Build
+dist
+.angular
+node_modules
+npm_debug.log
+
+#Docker
+*.Dockerfile
+docker-compose*.yml

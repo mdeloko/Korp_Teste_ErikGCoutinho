@@ -1,0 +1,11 @@
+<p-dataview #dv [value]="invoices" [sortField]="sortField" [sortOrder]="sortOrder">
+    <ng-template #header>
+      <p-select [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Ordenar por tempo" (onChange)="onSortChange($event)" class="mb-2 md:mb-0" />
+    </ng-template>
+    <ng-template #list let-items>
+          @for (item of items; track $index) {
+            <app-invoice-list-item [invoice]="item" (edit)="onEditInvoice.emit($event)"/>
+          }
+    </ng-template>
+</p-dataview>
+

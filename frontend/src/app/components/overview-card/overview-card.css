@@ -1,0 +1,16 @@
+@reference 'tailwindcss';
+
+:host{
+  @apply flex flex-col w-full text-slate-700 bg-white border rounded-2xl p-4 border-slate-200;
+  @apply dark:text-white dark:bg-zinc-900 dark:border-zinc-600;
+}
+section{
+  @apply flex flex-row w-full justify-between items-center;
+  i{
+    @apply font-medium text-xl;
+  }
+}
+span{
+  @apply text-3xl font-semibold;
+}
+

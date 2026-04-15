@@ -1,0 +1,15 @@
+<app-layout>
+  <h1 class="self-start">Dashboard</h1>
+  <span class="text-lg dark:text-white text-slate-700">Visão geral das suas notas fiscais, produtos e estoque.</span>
+  <section class="grid grid-cols-3 grid-rows-1 portrait:grid-rows-3 portrait:grid-cols-1 py-3 gap-3 mb-8">
+    <app-overview-card title="Total de Notas" [icon]="PrimeIcons.RECEIPT" [amount]="totalInvoices" iconColor="text-zinc-400 dark:text-slate-500"/>
+    <app-overview-card title="Notas Abertas"[icon]="PrimeIcons.SHOPPING_CART" [amount]="totalOpenedInvoices" iconColor="text-yellow-400 dark:text-yellow-600"/>
+    <app-overview-card title="Produtos"[icon]="PrimeIcons.BOX" [amount]="totalProducts" iconColor="text-green-400 dark:text-green-600"/>
+  </section>
+  <h2 class="mb-8">Notas Recentes</h2>
+  <section class="grid grid-cols-3 portrait:grid-cols-1 gap-3">
+    @for (invoice of latestInvoices; track $index) {
+      <app-recent-invoices-card [title]="'Nota #'+invoice.invoice_id" [opened]="invoice.status == 'opened'?true:false"/>
+    }
+  </section>
+</app-layout>

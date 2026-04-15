@@ -1,0 +1,31 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'tailwindcss';
+@import "tailwindcss-primeui";
+@import "primeicons/primeicons.css";
+
+@layer base{
+  h1{
+    @apply text-5xl font-bold text-slate-700;
+    @apply dark:text-white;
+  }
+  h2{
+    @apply text-3xl font-bold text-slate-700;
+    @apply dark:text-white;
+  }
+  h3{
+    @apply text-lg font-bold text-slate-700;
+    @apply dark:text-white;
+  }
+  #wrapper{
+    @apply w-full px-[20%] min-h-screen flex flex-col items-center;
+    @apply portrait:px-[5%];
+  }
+  #pseudo-body{
+    @apply w-full min-h-[75dvh] bg-white border rounded-2xl p-8 border-slate-200;
+    @apply dark:bg-zinc-900 dark:border-zinc-600;
+    @apply portrait:min-h-[85dvh];
+    @apply flex flex-col;
+  }
+}
+
